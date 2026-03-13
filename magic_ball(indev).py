@@ -1,9 +1,17 @@
 from random import choice, randrange, sample
-def is_valid_d_answer(answer):
+def is_valid_digit_answer(answer):
     if answer.isdigit():
         return int(answer) in [1, 2, 3, 4]
     else:
         return False
+    
+def is_valid_captcha_answer(answer):
+    for c in answer:
+        if not (1072 <= ord(c) <= 1106 or c == ' '):
+            break
+    else:
+        return True
+    return False
 
 def txt_to_leet(txt):
     crypted_txt = "A 6 B r g e E }|{ 3 u `u K JI M H 0 TT p c m y cp X LL 4 LLI LLL `b bI b € IO 9I , . ! ? : ;".split() + [' ']
@@ -51,10 +59,44 @@ def captcha():
     )
     answer = input('Выберите сложность: ').strip()
     
-    while not is_valid_d_answer(answer):
+    while not is_valid_digit_answer(answer):
         answer = input("Выберите сложность: ☆ - 1; ☆☆ - 2; ☆☆☆ - 3; ☆☆☆☆ - 4: ")
 
-    keys = [randrange(2, 4), randrange(7, 10), randrange(16, 20), randrange(30, 40)]
+    keys = [randrange(3, 5), randrange(8, 11), randrange(14, 18), randrange(25, 36)]
+    orig_words = sample(words, keys[int(answer) - 1])
+    leet_words = ' '.join([txt_to_leet(i) for i in orig_words])
+    attempts = 5 - int(answer)
 
-    orig_words = sample(words, keys[answer - 1])
-    leet_words = [txt_to_leet(i) for i in orig_words]
+    print()
+
+    print(
+        f"""        {'~' * 15}Приветствую тебя в каптче!{'~' * 15} 
+        У Вас есть {attempts} попыток на её прохождение. Каждая
+        новая попытка будет сопровождаться сменной набора слов.
+        В качестве ответа принимаются только буквенные символы 
+        русского алфавита и символы пробела. Каптча проходится 
+        только один раз; 1 ввод == 1 фул решенная капча.
+        {'~' * 25}Удачи!{'~' * 25}""", end='\n\n'
+    )
+    print(f"КАПТЧА >>> {leet_words}")
+    solution = input('Решение: ').strip().lower()
+
+    while attempts >= 1:
+        if not is_valid_captcha_answer(solution):
+            print('Я же сказал, что подходят только буквы русского алфавита и пробел...')
+            solution = input('Ваше решение: ').strip().lower()
+            continue
+
+        if solution == ' '.join(orig_words):
+            return True
+        else:
+            attempts -= 1
+            print('\n', f'У вас осталось {attempts} попыток...', '\n')
+
+            orig_words = sample(words, keys[int(answer) - 1])
+            leet_words = ' '.join([txt_to_leet(i) for i in orig_words])
+            print(f"КАПТЧА >>> {leet_words}")
+            solution = input('Ваше решение: ').strip().lower()
+
+    #print('К сожалению, уважаемый бот, вы не прошли капчу... Увидимся в другой раз!')
+    return False
