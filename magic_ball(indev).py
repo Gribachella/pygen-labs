@@ -1,21 +1,28 @@
 from random import choice, randrange, sample
-def is_valid_digit_answer(answer):
+def is_valid_digit_answer(answer, scope):
     if answer.isdigit():
-        return int(answer) in [1, 2, 3, 4]
+        return int(answer) in range(1, scope + 1)
     else:
         return False
     
-def is_valid_captcha_answer(answer):
-    for c in answer:
-        if not (1072 <= ord(c) <= 1106 or c == ' '):
-            break
+def is_valid_string_answer(answer):
+    if answer.isalpha():
+        return answer in ['да', 'д', 'lf', 'l', 'y', 'yes', 'da', 'd', 'нет', 'н', 'не', 'net', 'ne', 'ytn', 'yt']
     else:
-        return True
+        return False
+
+def is_valid_captcha_answer(answer):
+    if answer:
+        for c in answer:
+            if not (1072 <= ord(c) <= 1106 or c == ' '):
+                break
+        else:
+            return True
     return False
 
 def txt_to_leet(txt):
-    crypted_txt = "A 6 B r g e E }|{ 3 u `u K JI M H 0 TT p c m y cp X LL 4 LLI LLL `b bI b € IO 9I , . ! ? : ;".split() + [' ']
-    text = "а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я , . ! ? : ;".split() + [' ']
+    crypted_txt = "A 6 B r g e E }|{ 3 u `u K JI M H 0 TT p c m y cp X LL 4 LLI LLL `b bI b € IO 9I".split() + [' ']
+    text = "а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я".split() + [' ']
     converted = ''
 
     for c in txt:
@@ -51,52 +58,102 @@ def captcha():
         нерасчленённость аберрация агностицизм антиномичность диссоциация конгруэнтность континуальность легитимация манифестация обструкционизм партикулярность
         проспекция ретроспекция симультанность синкретизм субституция тотализация фрагментарность холистичность элиминация эмерджентность""".split()
     print(
-        '=' * 3, '''Cложность каптчи:
+        '=' * 3, '''Cложность капчи:
         ☆ Легко - 1
         ☆☆ Сложно - 2
-        ☆☆☆ Безумнно - 3
+        ☆☆☆ Безумно - 3
         ☆☆☆☆ Новичок - 4''', end='\n\n'
     )
-    answer = input('Выберите сложность: ').strip()
+    difficulty = input('Выберите сложность: ').strip()
     
-    while not is_valid_digit_answer(answer):
-        answer = input("Выберите сложность: ☆ - 1; ☆☆ - 2; ☆☆☆ - 3; ☆☆☆☆ - 4: ")
+    while not is_valid_digit_answer(difficulty, 4):
+        difficulty = input("Выберите сложность: ☆ - 1; ☆☆ - 2; ☆☆☆ - 3; ☆☆☆☆ - 4: ")
 
-    keys = [randrange(3, 5), randrange(8, 11), randrange(14, 18), randrange(25, 36)]
-    orig_words = sample(words, keys[int(answer) - 1])
-    leet_words = ' '.join([txt_to_leet(i) for i in orig_words])
-    attempts = 5 - int(answer)
+    if difficulty == "4":
+        print(
+            '\n', """    Вы выбрали капчу повышенного уровня сложности!
+            Условия прохождения:
+            1) Одна попытка
+            2) Запрет на частичный ввод отдельных элементов капчи
+            3) Количесто элементов капчи значительно возрастает
+            4) Каждый отдельный элемент капчи инверсирован""", "\n"
+        )
+        answer = input("Вы хотите поменять сложность? (д = да; н = нет): ").strip().lower()
+
+        while not is_valid_string_answer(answer):
+            answer = input("Возможные варианты ответа: д = да; н = нет: ").strip().lower()
+
+        if answer in ['да', 'д', 'lf', 'l', 'y', 'yes', 'da', 'd']:
+            print(
+                '=' * 3, '''Cложность капчи:
+                ☆ Легко - 1
+                ☆☆ Сложно - 2
+                ☆☆☆ Безумно - 3''', end='\n\n'
+            )
+            difficulty = input('Выберите сложность: ').strip()
+
+            while not is_valid_digit_answer(difficulty, 3):
+                difficulty = input("Выберите сложность: ☆ - 1; ☆☆ - 2; ☆☆☆ - 3: ")
+        else:
+            print('Ну что ж... Тогда сейчас расскажу правила и можем приступать.', '\n')
+
+    keys = [randrange(3, 5), randrange(8, 11), randrange(15, 20), randrange(28, 39)]
+    orig_words = sample(words, keys[int(difficulty) - 1])
+
+    if difficulty != "4":
+        leet_words = ' '.join([txt_to_leet(i) for i in orig_words])
+    else:
+        leet_words = ' '.join([txt_to_leet(i[::-1]) for i in orig_words])
+
+    if difficulty == "3" or difficulty == "4":
+        attempts = 1
+    else:
+        attempts = 2
 
     print()
 
     print(
-        f"""        {'~' * 15}Приветствую тебя в каптче!{'~' * 15} 
-        У Вас есть {attempts} попыток на её прохождение. Каждая
-        новая попытка будет сопровождаться сменной набора слов.
-        В качестве ответа принимаются только буквенные символы 
-        русского алфавита и символы пробела. Каптча проходится 
-        только один раз; 1 ввод == 1 фул решенная капча.
-        {'~' * 25}Удачи!{'~' * 25}""", end='\n\n'
+        f"""        {'~' * 45}Приветствую тебя в капче!{'~' * 45} 
+        У Вас есть {attempts} попыток на её прохождение. Каждая новая попытка будет сопровождаться сменной набора слов.
+        В качестве ответа принимаются только буквы русского алфавита или буквы русского алфавита и пробел(-ы) (первый случай
+        предусмотрен для варианта прохождения по частям). Вы можете проходить капчу как введя полностью её аналог на кириллице,
+        так и вводя правильную последовательность символов на кириллице по частям, при условии, что именно этой 
+        последовательностью символов начинается набор символов капчи на кириллице. На сложности "Новичок" проходить 
+        капчу по частям нельзя, это будет считаться как ошибочный ввод капчи.
+        {'~' * 55}Удачи!{'~' * 55}""", end='\n\n'
     )
-    print(f"КАПТЧА >>> {leet_words}")
+    print(f"КАПЧА >>> {leet_words}", '\n')
     solution = input('Решение: ').strip().lower()
 
-    while attempts >= 1:
+    while True:
         if not is_valid_captcha_answer(solution):
-            print('Я же сказал, что подходят только буквы русского алфавита и пробел...')
-            solution = input('Ваше решение: ').strip().lower()
+            print('Неверный формат ответа, попробуйте еще раз.')
+            solution = input('Решение: ').strip().lower()
             continue
 
-        if solution == ' '.join(orig_words):
+        elif solution == ' '.join(orig_words):
             return True
+        
+        elif ' '.join(orig_words).startswith(solution) and not difficulty == '4':
+            orig_words = ' '.join(orig_words).replace(solution, '').strip().split()
+            leet_words = ' '.join([txt_to_leet(i) for i in orig_words])
+            print('\n', f"КАПЧА >>> {leet_words}", '\n')
+            solution = input('Решение: ').strip().lower()
+
         else:
             attempts -= 1
-            print('\n', f'У вас осталось {attempts} попыток...', '\n')
+            if attempts == 0:
+                break
 
-            orig_words = sample(words, keys[int(answer) - 1])
-            leet_words = ' '.join([txt_to_leet(i) for i in orig_words])
-            print(f"КАПТЧА >>> {leet_words}")
-            solution = input('Ваше решение: ').strip().lower()
+            print('\n', f'У вас осталось {attempts} попыток...')
+
+            orig_words = sample(words, keys[int(difficulty) - 1])
+            if difficulty != "4":
+                leet_words = ' '.join([txt_to_leet(i) for i in orig_words])
+            else:
+                leet_words = ' '.join([txt_to_leet(i[::-1]) for i in orig_words])
+            print('\n', f"КАПЧА >>> {leet_words}", '\n')
+            solution = input('Решение: ').strip().lower()
 
     #print('К сожалению, уважаемый бот, вы не прошли капчу... Увидимся в другой раз!')
     return False
