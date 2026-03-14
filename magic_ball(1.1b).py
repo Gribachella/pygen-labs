@@ -126,8 +126,8 @@ def is_valid_string_answer(answer, format='yesno'):
         return False
 
 # Валидация пользовательского имени/псевдонима
-def is_username_valid(username):
-    return 1 <= len(username) <= 25 and username != ''
+def is_valid_username(username):
+    return 1 <= len(username) <= 25 or username == ''
 
 # Функция запрашивает у пользователя имя/псевдоним и возвращает его (имя)
 def get_username():
@@ -135,7 +135,7 @@ def get_username():
 
     name = input("Я... ").strip()
 
-    while not is_username_valid(name):
+    while not is_valid_username(name):
         name = input("Введите имя или псеводним длиной до 25 символов: ").strip()
     return name
 
