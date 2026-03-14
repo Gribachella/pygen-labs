@@ -120,8 +120,6 @@ def is_valid_string_answer(answer, format='yesno'):
     if answer.isalpha():
         if format == 'yesno':
             return answer in ['да', 'д', 'lf', 'l', 'y', 'yes', 'da', 'd', 'нет', 'н', 'не', 'net', 'ne', 'ytn', 'yt', 'n', 'no']
-        elif format == 'name':
-            pass
         else:
             return False
     else:
