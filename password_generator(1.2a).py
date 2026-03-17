@@ -4,23 +4,71 @@ from os import system, name
 from sys import exit
 
 # Ф-ия принимает выбранный пользователем алфавит и длину пароля, генерирует и возвращает пароль
+def get_uniq_charsets(charset, user_charset):
+    combine = [i.copy() for i in charset] + [j.copy() for j in user_charset]
+    uniq_charsets = []
+
+    for i in range(len(combine)):
+        uniq_chars = []
+        
+        for j in combine[i]:
+            if j not in uniq_chars:
+                uniq_chars.append(j)
+
+            for k in range(i + 1, len(combine)):
+                combine[k] = [m for m in combine[k] if m != j]
+
+        uniq_charsets.append(uniq_chars.copy())
+
+    while [] in uniq_charsets:
+        uniq_charsets.remove([])
+
+    return uniq_charsets
+
 def get_password(length, charset, user_charset, ambiguous, ambiguous_include, space_include):
-    full_password_alphabet = get_processed_alphabet(charset + user_charset, 'full')
-    finally_password_alphabet = []
+    uniq_charsets = get_uniq_charsets(charset, user_charset)
+    full_password_alphabet = ''.join(get_processed_alphabet(uniq_charsets, 'full'))
+    finally_password_alphabet = ''
     
-    for sym in full_password_alphabet:
-        if not ambiguous_include:
-            if sym in ambiguous:
-                continue
-        if sym not in finally_password_alphabet:
-            finally_password_alphabet += sym
+    if not ambiguous_include:
+        for sym in full_password_alphabet:
+            if sym not in ambiguous:
+                finally_password_alphabet += sym
+    else:
+        finally_password_alphabet = full_password_alphabet
 
     if space_include:
         finally_password_alphabet += ' '
 
+    finally_password_alphabet = list(finally_password_alphabet)
+    
     shuffle(finally_password_alphabet)
 
-    password = ''.join([choice(finally_password_alphabet) for _ in range(length)])
+    while True:
+        password = ''.join([choice(finally_password_alphabet) for _ in range(length)])
+        password_in_charsets = True
+
+        if length > len(uniq_charsets):
+            for cs in uniq_charsets:
+                for sym in password:
+                    if sym in cs:
+                        break
+                else:
+                    password_in_charsets = False
+
+            if password_in_charsets:
+                break
+
+        else:
+            counter = 0
+            for cs in uniq_charsets:
+                for sym in password:
+                    if sym in cs:
+                        counter += 1
+                        break
+
+            if counter == length:
+                break
 
     return password
 
