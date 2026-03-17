@@ -369,7 +369,7 @@ ambiguous_include, space_include = True, False
 user_charset = []
 
 charset = [digits, lowercase_letters, uppercase_letters, spec_chars]
-password_len, password_quantity = 14, 3
+password_len, password_quantity = 14, 5
 
 while True:
     main_menu(password_len, charset, user_charset, password_quantity)
