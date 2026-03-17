@@ -221,14 +221,10 @@ def get_user_charset(user_charset, charset):
                 user_charset.remove([])
 
 def is_charset_in_alphabet(curr_set, gen_charset):
-    sorted_charset = []
-    curr_set.sort()
+    curr_set_copy = sorted(curr_set)
+    gen_charset_copy = [sorted(cs) for cs in gen_charset]
 
-    for el in gen_charset:
-        el.sort()
-        sorted_charset.append(el)
-
-    return curr_set in sorted_charset
+    return curr_set_copy in gen_charset_copy
 
 # Ф-ия, в которой пользователь выбирает набор символов для пароля и может предложить свой набор
 def get_password_charset(charset, ambiguous_include, space_include, user_charset):
