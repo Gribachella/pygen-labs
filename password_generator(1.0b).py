@@ -4,7 +4,7 @@ from os import system, name
 from sys import exit
 
 # Ф-ия принимает выбранный пользователем алфавит и длину пароля, генерирует и возвращает пароль
-def get_password(length, charset, user_charset):
+def get_password(length, charset, user_charset, ambiguous, ambiguous_include, space_include):
     full_password_alphabet = get_processed_alphabet(charset + user_charset, 'full')
     finally_password_alphabet = []
     
@@ -20,7 +20,7 @@ def get_password(length, charset, user_charset):
 
     shuffle(finally_password_alphabet)
 
-    password = ''.join([choice(finally_password_alphabet) for i in range(length)])
+    password = ''.join([choice(finally_password_alphabet) for _ in range(length)])
 
     return password
 
@@ -389,7 +389,7 @@ while True:
     elif answer == '4':
         clear_console()
         for i in range(password_quantity):
-            password = get_password(password_len, charset, user_charset)
+            password = get_password(password_len, charset, user_charset, ambiguous, ambiguous_include, space_include)
             print(f"{i + 1}) {password}")
 
         input()
