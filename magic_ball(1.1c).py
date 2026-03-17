@@ -299,12 +299,12 @@ def captcha():
 # Ф-ия  основого алгоритма игры; возвращает либо True, либо False
 def the_game():
     sym = "🔮:"
-    trigger_num2 = randrange(4)
+    trigger_num2 = randrange(5)
     
     print(sym, choice(phrases("askque")))
     answer = input('Ваш вопрос: ')
 
-    if trigger_num2 == 1:  # Если затригерится ивент об уверенности пользователя узнать ответ на ранее поставленный им вопрос (шанс 25%)
+    if trigger_num2 == 1:  # Если затригерится ивент об уверенности пользователя узнать ответ на ранее поставленный им вопрос (шанс 20%)
         print()
         print(sym, choice(phrases('asking_again_about_ask')))
         answer = input("'д' - да; 'н' - нет, хочу задать другой вопрос: ").strip().lower()
