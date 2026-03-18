@@ -427,7 +427,6 @@ def main_menu(length, charset, user_charset, quantity):
         entropy_case = get_entropy_case(length, uniq_symbols)
     else:
         entropy = 0
-        entropy_case = "Добавьте набор символов в алфавит"
 
     if quantity != 1:
         ending = "и"
