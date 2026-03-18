@@ -315,7 +315,7 @@ def the_game():
         if answer in ['да', 'д', 'lf', 'l', 'y', 'yes', 'da', 'd']:
             print("Внемли же...", end='\n\n')
             print(sym, choice(phrases("answers")))
-            answer = input("хотите задать еще один вопрос? (д - да; н - нет): ")
+            answer = input("хотите задать еще один вопрос? (д - да; н - нет): ").strip().lower()
 
             while not is_valid_string_answer(answer):
                 answer = input("Возможные ответы: 'д' - да; 'н' - нет: ").strip().lower()
@@ -333,7 +333,7 @@ def the_game():
              answer = input('Ваш вопрос: ')
              print("Внемли же...", end='\n\n')
              print(sym, choice(phrases("answers")))
-             answer = input("хотите задать еще один вопрос? (д - да; н - нет): ")
+             answer = input("хотите задать еще один вопрос? (д - да; н - нет): ").strip().lower()
 
              while not is_valid_string_answer(answer):
                 answer = input("Возможные ответы: 'д' - да; 'н' - нет: ").strip().lower()
@@ -349,7 +349,7 @@ def the_game():
     print("Внемли же...", end='\n\n')
     print(sym, choice(phrases("answers")))
 
-    answer = input("хотите задать еще один вопрос? (д - да; н - нет): ")
+    answer = input("хотите задать еще один вопрос? (д - да; н - нет): ").strip().lower()
              
     while not is_valid_string_answer(answer):
         answer = input("Возможные ответы: 'д' - да; 'н' - нет: ").strip().lower()
