@@ -409,7 +409,7 @@ def get_entropy_case(length, alphabet):
     elif 128 <= entropy < 256:
         return 'Очень сильный пароль'
     else:
-        return 'Гровероустойчивый пароль'
+        return 'Гроверорезистентный пароль'
 
 # Главное меню программы
 def main_menu(length, charset, user_charset, quantity):
