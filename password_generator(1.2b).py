@@ -290,13 +290,13 @@ def get_password_charset(charset, ambiguous_include, space_include, user_charset
         clear_console()
 
         tips('alphabet')
-        print(f'1) [СН] Цифры {digits[0]}-{digits[-1]}{" " * 27} > {'ВКЛЮЧЕНО' if digits in combine else 'НЕ ВКЛЮЧЕНО'}')
-        print(f'2) [СН] Англ. буквы в нижнем регистре {lowercase_letters[0]}-{lowercase_letters[-1]}{" " * 3} > {'ВКЛЮЧЕНО' if lowercase_letters in combine else 'НЕ ВКЛЮЧЕНО'}')
-        print(f'3) [СН] Англ. буквы в верхнем регистре {uppercase_letters[0]}-{uppercase_letters[-1]}{" " * 2} > {'ВКЛЮЧЕНО' if uppercase_letters in combine else 'НЕ ВКЛЮЧЕНО'}')
-        print(f'4) [СН] Основные спец. символы {''.join(spec_chars)} > {'ВКЛЮЧЕНО' if spec_chars in charset else 'НЕ ВКЛЮЧЕНО'}')
-        print(f'5) Доп. спец. символы {''.join(spec_chars_expanded)}{" " * 3} > {'ВКЛЮЧЕНО' if spec_chars_expanded in combine else 'НЕ ВКЛЮЧЕНО'}')
-        print(f'6) [СН] Неоднозначные символы {ambiguous}{" " * 7} > {'ВКЛЮЧЕНО ' if ambiguous_include else 'НЕ ВКЛЮЧЕНО'}')
-        print(f'7) Символ пробела " "{" " * 23} > {'ВКЛЮЧЕНО' if space_include else 'НЕ ВКЛЮЧЕНО'}')
+        print(f'1) [СН] Цифры {digits[0]}-{digits[-1]}{" " * 27} > {"ВКЛЮЧЕНО" if digits in combine else "НЕ ВКЛЮЧЕНО"}')
+        print(f'2) [СН] Англ. буквы в нижнем регистре {lowercase_letters[0]}-{lowercase_letters[-1]}{" " * 3} > {"ВКЛЮЧЕНО" if lowercase_letters in combine else "НЕ ВКЛЮЧЕНО"}')
+        print(f'3) [СН] Англ. буквы в верхнем регистре {uppercase_letters[0]}-{uppercase_letters[-1]}{" " * 2} > {"ВКЛЮЧЕНО" if uppercase_letters in combine else "НЕ ВКЛЮЧЕНО"}')
+        print(f'4) [СН] Основные спец. символы {''.join(spec_chars)} > {"ВКЛЮЧЕНО" if spec_chars in charset else "НЕ ВКЛЮЧЕНО"}')
+        print(f'5) Доп. спец. символы {''.join(spec_chars_expanded)}{" " * 3} > {"ВКЛЮЧЕНО" if spec_chars_expanded in combine else "НЕ ВКЛЮЧЕНО"}')
+        print(f'6) [СН] Неоднозначные символы {ambiguous}{" " * 7} > {"ВКЛЮЧЕНО" if ambiguous_include else "НЕ ВКЛЮЧЕНО"}')
+        print(f'7) Символ пробела " "{" " * 23} > {"ВКЛЮЧЕНО" if space_include else "НЕ ВКЛЮЧЕНО"}')
         print('8) Добавить свой набор символов')
         print('9) Назад')
 
@@ -433,7 +433,7 @@ def main_menu(length, charset, user_charset, quantity):
     else:
         ending = "ь"
 
-    print(f'{'=' * 31}ГЕНЕРАТОР ПАРОЛЕЙ{'=' * 31}')
+    print(f'{"=" * 31}ГЕНЕРАТОР ПАРОЛЕЙ{"=" * 31}')
     print(f'1) Длина пароля: {length}')
     print(f'2) Алфавит пароля: {short_alpha} - {len(uniq_symbols)} уникальных символов')
     print(f'3) Количество: {quantity}', end='\n\n')
