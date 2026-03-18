@@ -2,6 +2,7 @@ from secrets import choice
 from random import shuffle
 from os import system, name
 from sys import exit
+from math import log2
 
 # Ф-ия принимает выбранный пользователем алфавит и длину пароля, генерирует и возвращает пароль
 def get_uniq_charsets(charset, user_charset):
@@ -400,6 +401,20 @@ def get_processed_alphabet(alpha, what_to_return='both'):
     elif what_to_return == 'short':
         return shortened_alpha
 
+def get_entropy_case(length, alphabet):
+    entropy = round(length * log2(len(alphabet)), 2)
+
+    if entropy < 50:
+        return 'Слабый пароль'
+    elif 50 <= entropy < 82:
+        return 'Средний пароль'
+    elif 82 <= entropy < 128:
+        return 'Сильный пароль'
+    elif 128 <= entropy < 256:
+        return 'Очень сильный пароль'
+    else:
+        return 'Гровероустойчивый пароль'
+
 def main_menu(length, charset, user_charset, quantity):
     clear_console()
 
@@ -409,6 +424,9 @@ def main_menu(length, charset, user_charset, quantity):
     for sym in full_alpha:
         if sym not in uniq_symbols:
             uniq_symbols += sym
+
+    entropy = round(length * log2(len(uniq_symbols)), 2)
+    entropy_case = get_entropy_case(length, uniq_symbols)
 
     if quantity != 1:
         ending = "и"
@@ -420,7 +438,7 @@ def main_menu(length, charset, user_charset, quantity):
     print(f'2) Алфавит пароля: {short_alpha} - {len(uniq_symbols)} уникальных символов')
     print(f'3) Количество: {quantity}', end='\n\n')
 
-    print(f'Вариативность пароля: {len(uniq_symbols) ** length}', end='\n\n')
+    print(f'Энтропия пароля: {entropy} бит - {entropy_case}', end='\n\n')
     print(f'4) Сгенерировать парол{ending}')
     print('5) Выход')
     print('=' * 79)
