@@ -5,16 +5,21 @@ from sys import exit
 from math import log2
 
 # Ф-ия принимает полный список наборов символов, генерирует и возвращает список наборов символов включающих только уникальные символы
-def get_uniq_charsets(charset, user_charset):
+def get_uniq_charsets(charset, user_charset, ambiguous_include):
     combine = [i.copy() for i in charset] + [j.copy() for j in user_charset]
     uniq_charsets = []
+    ambiguous = '0Ooi1lI'
 
     for i in range(len(combine)):
         uniq_chars = []
         
         for j in combine[i]:
-            if j not in uniq_chars:
-                uniq_chars.append(j)
+            if not ambiguous_include:
+                if j not in uniq_chars and j not in ambiguous:
+                    uniq_chars.append(j)
+            else:
+                if j not in uniq_chars:
+                    uniq_chars.append(j)
 
             for k in range(i + 1, len(combine)):
                 combine[k] = [m for m in combine[k] if m != j]
@@ -28,7 +33,7 @@ def get_uniq_charsets(charset, user_charset):
 
 # Функция генерации пароля + проверка на предмет максимально возможного включения в содержание пароля всех уникальных групп символов
 def get_password(length, charset, user_charset, ambiguous, ambiguous_include, space_include):
-    uniq_charsets = get_uniq_charsets(charset, user_charset)
+    uniq_charsets = get_uniq_charsets(charset, user_charset, ambiguous_include)
     full_password_alphabet = ''.join(get_processed_alphabet(uniq_charsets, 'full'))
     finally_password_alphabet = ''
     
@@ -190,8 +195,7 @@ def add_user_charset(user_charset, charset):
     uppercase_letters = [chr(c) for c in range(65, 91)]
     spec_chars = list('!#$%&*+-=?@^_')
     spec_chars_expanded = list("'\"(),./:;<>[\\]`{|}~")
-    ambiguous = '0Ooi1lI'
-    standard_set = [digits] + [lowercase_letters] + [uppercase_letters] + [sorted(spec_chars)] + [sorted(spec_chars_expanded)] + [sorted(list(ambiguous))]
+    standard_set = [digits] + [lowercase_letters] + [uppercase_letters] + [sorted(spec_chars)] + [sorted(spec_chars_expanded)]
 
     while True:
         clear_console()
@@ -229,8 +233,7 @@ def edit_user_charset(user_charset_index, user_charset, charset):
     uppercase_letters = [chr(c) for c in range(65, 91)]
     spec_chars = list('!#$%&*+-=?@^_')
     spec_chars_expanded = list("'\"(),./:;<>[\\]`{|}~")
-    ambiguous = '0Ooi1lI'
-    standard_set = [digits] + [lowercase_letters] + [uppercase_letters] + [sorted(spec_chars)] + [sorted(spec_chars_expanded)] + [sorted(list(ambiguous))]
+    standard_set = [digits] + [lowercase_letters] + [uppercase_letters] + [sorted(spec_chars)] + [sorted(spec_chars_expanded)]
 
     while True:
         clear_console()
@@ -352,6 +355,11 @@ def get_password_charset(charset, ambiguous_include, space_include, user_charset
             return charset, ambiguous_include, space_include, user_charset
 
         full_combine = get_processed_alphabet(charset + user_charset, 'full')
+        uniq_full_combine = '' if not space_include else ' '
+
+        for c in full_combine:
+            if c not in uniq_full_combine:
+                uniq_full_combine += c
 
         if not (charset + user_charset):
             space_include, ambiguous_include = False, False
@@ -367,6 +375,20 @@ def get_password_charset(charset, ambiguous_include, space_include, user_charset
                     break
             else:
                 ambiguous_include = True
+            
+            is_ambiguous_in = False
+            counter = 0
+
+            for c in uniq_full_combine:
+                if c not in ambiguous:
+                    counter += 1
+                else:
+                    is_ambiguous_in = True
+                if counter == 2:
+                    break
+            else:
+                if is_ambiguous_in:
+                    ambiguous_include = True
 
 # Ф-ия, возвращающая длину пароля выбранную пользователем
 def get_password_length():
