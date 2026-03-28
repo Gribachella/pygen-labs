@@ -361,12 +361,10 @@ def get_streak_status(points):
     
     elif points <= 60:
         return streak_visual[9]
-    elif points <= 85:
+    elif points <= 95:
         return streak_visual[10]
-    elif points <= 135:
+    elif points > 95:
         return streak_visual[11]
-    elif points > 135:
-        return streak_visual[12]
 
 def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status, points):
     ru_low_letters = [chr(i) for i in range(1072, 1104)] + ['ё']
@@ -394,7 +392,7 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
         if fin_word == word or attempts == 11:
             the_game_is_over = True
 
-        print(f"{'═' * 16}╦{'═' * (34 - len(curr_streak_status) + 2)}╣{curr_streak_status}╠═")
+        print(f"{'═' * 16}╦{'═' * (35 - len(curr_streak_status) + 2)}╣{curr_streak_status}╠═")
         print(a, (f"{'Подсказка: ' + hint}" if hint_status else f"Слово: {' '.join(fin_word)}") if not the_game_is_over else "Вы победили!" if full_word_win or fin_word == word else "Вы проиграли.")
         print(b)
         print(c, (f"Слово: {' '.join(fin_word)}" if hint_status else "") if not the_game_is_over else "")
