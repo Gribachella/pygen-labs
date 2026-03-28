@@ -348,7 +348,7 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
             clear_console()
             input("НЕКОРРЕКТНЫЙ ВВОД: Допустимым ответом является 1 буква, либо же \nнабор букв равный длине загаданного слова. Буквы из русского алфавита. \n\n>>> ")
             continue
-        elif answer in mistakes:
+        elif answer in mistakes or answer.upper() in correct_letters:
             clear_console()
             print(f"НЕКОРРЕКТНЫЙ ВВОД: Вы уже вводили эт{'у букву' if len(answer) == 1 else 'о слово'}.", end='\n\n')
             input(">>> ")
