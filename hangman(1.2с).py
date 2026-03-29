@@ -336,7 +336,6 @@ def get_streak_status(points):
     'Ｓ🦏', 'ＳＳ🐘', 'ＳＳＳ🦖',
     'Ｘ🦄', 'Ｙ🐉', 'Ｚ🧑'
     ]
-    
 
     if points <= 3.5 * 1.15:
         return streak_visual[0]
@@ -359,11 +358,11 @@ def get_streak_status(points):
     elif points <= 44.5 * 1.15:
         return streak_visual[8]
     
-    elif points <= 64.5 * 1.15:
+    elif points <= 70 * 1.15:
         return streak_visual[9]
-    elif points <= 102 * 1.15:
+    elif points <= 117 * 1.15:
         return streak_visual[10]
-    elif points > 102 * 1.15:
+    elif points > 117 * 1.15:
         return streak_visual[11]
 
 def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status, points):
