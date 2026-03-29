@@ -23,9 +23,9 @@ def guide(option):
 
     elif option == "start":
         print(f"{'=' * 28}Справка к конфигурации игры{'=' * 28}")
-        print("В 1-ом параметре игры вы выбираете сколько попыток вам даеться на угадывание слова:")
+        print("В 1-ом параметре игры вы выбираете сколько попыток вам дается на угадывание слова:")
         print("в обычной продолжительности дается 6 попыток, а в долгой - 10. Соответственно")
-        print("отрисовка начинается с самой виселицы.", end="\n\n")
+        print("в долгой отрисовка начинается с самой виселицы, а не с человечка.", end="\n\n")
         print("Во 2-ом параметре выбираеться отображение подсказки к слову во время игры.", end="\n\n")
         print("В 3-ем параметре вы выбираете начальное состояние первой и последней буквы")
         print("загаданного слова: раскрыты или скрыты.")
@@ -260,6 +260,7 @@ def is_valid_string_answer(answer, format='yesno', gameword=''):
 def before_game_menu(game_duration, hint_status, frst_and_lst_letters_status):
     while True:
         clear_console()
+        guide('start')
         print(f"1) Продолжительность игры             >  {'ОБЫЧНАЯ' if game_duration else 'ДОЛГАЯ'}")
         print(f"2) Играть с подсказкой                >  {'ДА' if hint_status else 'НЕТ'}")
         print(f"3) Раскрыть первую и последную букву  >  {'ДА' if frst_and_lst_letters_status else 'НЕТ'}", end='\n\n')
@@ -396,7 +397,7 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
         else:
             streak_str_len = len(curr_streak_status)
 
-        print(f"{'═' * 16}╦{'═' * (37 - streak_str_len)}╣{curr_streak_status}╠═")
+        print(f"{'═' * 16}╦{'═' * (40 - streak_str_len)}╣{curr_streak_status}╠═")
         print(a, (f"{'Подсказка: ' + hint}" if hint_status else f"Слово: {' '.join(fin_word)}") if not the_game_is_over else "Вы победили!" if full_word_win or fin_word == word else "Вы проиграли.")
         print(b)
         print(c, (f"Слово: {' '.join(fin_word)}" if hint_status else "") if not the_game_is_over else "")
@@ -404,7 +405,7 @@ def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_s
         print(e, (f"Ошибки: {', '.join(mistakes)}" if hint_status else "") if not the_game_is_over else "")
         print(f)
         print(g, f"Осталось попыток: {11 - attempts}" if not the_game_is_over else "")
-        print('═' * 16, '╩', '═' * 42, sep='')
+        print('═' * 16, '╩', '═' * 45, sep='')
 
         answer = input('>>> ').strip().lower()
 
