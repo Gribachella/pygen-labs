@@ -489,7 +489,7 @@ while True:
         result = play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status, points)
 
         if result == 1:
-            points += adding * 2
+            points += adding * 1.75
         elif result == 2:
             points += adding
         else:
