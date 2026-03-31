@@ -344,25 +344,25 @@ def get_streak_status(points):
     elif points <= 8.5 * 1.15:
         return streak_visual[2]
     
-    elif points <= 12.5 * 1.15:
+    elif points <= 13 * 1.15:
         return streak_visual[3]
-    elif points <= 16.5 * 1.15:
+    elif points <= 18.5 * 1.15:
         return streak_visual[4]
-    elif points <= 20.5 * 1.15:
+    elif points <= 25 * 1.15:
         return streak_visual[5]
     
-    elif points <= 27 * 1.15:
-        return streak_visual[6]
     elif points <= 35 * 1.15:
+        return streak_visual[6]
+    elif points <= 47 * 1.15:
         return streak_visual[7]
-    elif points <= 48 * 1.15:
+    elif points <= 63.5 * 1.15:
         return streak_visual[8]
     
-    elif points <= 70 * 1.15:
+    elif points <= 92.5 * 1.15:
         return streak_visual[9]
-    elif points <= 117 * 1.15:
+    elif points <= 132.5 * 1.15:
         return streak_visual[10]
-    elif points > 117 * 1.15:
+    elif points > 132.5 * 1.15:
         return streak_visual[11]
 
 def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status, points):
