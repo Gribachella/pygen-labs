@@ -245,12 +245,7 @@ def is_valid_string_answer(answer, format='yesno', gameword=''):
             return answer in 'lf l da d y yes ye да д нет не н net ne n no ytn yt'.split()
         
         elif format == 'game':
-            if len(answer) == 1:
-                return True
-            elif len(answer) == len(gameword):
-                return True
-            else:
-                return False
+            return len(answer) == 1 or len(answer) == len(gameword)
             
         else:
             return False
