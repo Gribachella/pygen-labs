@@ -215,16 +215,22 @@ def get_word(completed_words_list):
         electric_appliances, phenomenon, gems, substances, shapes, space, groceries
     ]
 
-    while True:
-        choiced_category = choice(categories)
-        category_hint = hints[categories.index(choiced_category)]
-        choiced_word = choice(choiced_category)
+    # ----- Удаляем слова которые уже были -----
+    for category in categories:
+        cnt = 0
+        for i in range(len(category)):
+            if category[i - cnt] in completed_words_list:
+                del category[i - cnt]
+                cnt += 1
 
-        if choiced_word in completed_words_list:
-            continue
-        else:
-            break
-    
+    while [] in categories:
+        categories.remove([])
+    # ------------------------------------------
+
+    choiced_category = choice(categories)
+    category_hint = hints[categories.index(choiced_category)]
+    choiced_word = choice(choiced_category)
+
     return choiced_word, category_hint
 
 def bool_switch(bool):
