@@ -357,14 +357,14 @@ def get_streak_status(points):
         return streak_visual[6]
     elif points <= 47 * 1.15:
         return streak_visual[7]
-    elif points <= 63.5 * 1.15:
+    elif points <= 73.5 * 1.15:
         return streak_visual[8]
     
-    elif points <= 92.5 * 1.15:
+    elif points <= 110 * 1.15:
         return streak_visual[9]
-    elif points <= 142.5 * 1.15:
+    elif points <= 169.5 * 1.15:
         return streak_visual[10]
-    elif points > 142.5 * 1.15:
+    elif points > 169.5 * 1.15:
         return streak_visual[11]
 
 def play_the_game(word, game_duration, hint_status, hint, frst_and_lst_letters_status, points):
