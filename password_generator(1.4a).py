@@ -38,7 +38,7 @@ def get_password(length, charset, user_charset, ambiguous, ambiguous_include, sp
     
     if not ambiguous_include:
         for sym in ambiguous:
-            password_alphabet.replace(sym, '')
+            password_alphabet = password_alphabet.replace(sym, '')
 
     if space_include:
         password_alphabet += ' '
