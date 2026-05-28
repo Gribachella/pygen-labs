@@ -34,51 +34,27 @@ def get_uniq_charsets(charset, user_charset, ambiguous_include):
 # Функция генерации пароля + проверка на предмет максимально возможного включения в содержание пароля всех уникальных групп символов
 def get_password(length, charset, user_charset, ambiguous, ambiguous_include, space_include):
     uniq_charsets = get_uniq_charsets(charset, user_charset, ambiguous_include)
-    full_password_alphabet = ''.join(get_processed_alphabet(uniq_charsets, 'full'))
-    finally_password_alphabet = ''
+    password_alphabet = ''.join(get_processed_alphabet(uniq_charsets, 'full'))
     
     if not ambiguous_include:
-        for sym in full_password_alphabet:
-            if sym not in ambiguous:
-                finally_password_alphabet += sym
-    else:
-        finally_password_alphabet = full_password_alphabet
+        for sym in ambiguous:
+            password_alphabet.replace(sym, '')
 
     if space_include:
-        finally_password_alphabet += ' '
+        password_alphabet += ' '
         uniq_charsets += [[' ']]
 
-    finally_password_alphabet = list(finally_password_alphabet)
+    password_alphabet = list(password_alphabet)
+    chss_c = uniq_charsets.copy()
+    chss_q = len(chss_c)
+
+    if length <= len(chss_c):
+        return ''.join([choice(chss_c.pop(chss_c.index(choice(chss_c)))) for _ in range(length)])
     
-    shuffle(finally_password_alphabet)
-
-    while True:
-        password = ''.join([choice(finally_password_alphabet) for _ in range(length)])
-        password_in_charsets = True
-
-        if length > len(uniq_charsets):
-            for cs in uniq_charsets:
-                for sym in password:
-                    if sym in cs:
-                        break
-                else:
-                    password_in_charsets = False
-
-            if password_in_charsets:
-                break
-
-        else:
-            counter = 0
-            for cs in uniq_charsets:
-                for sym in password:
-                    if sym in cs:
-                        counter += 1
-                        break
-
-            if counter == length:
-                break
-
-    return password
+    password = [choice(chss_c.pop(chss_c.index(choice(chss_c)))) for _ in range(chss_q)]
+    password.extend([choice(password_alphabet) for _ in range(length - chss_q)])
+    shuffle(password)
+    return ''.join(password)
 
 # Очищает содержимое консоли улучшая визуал
 def clear_console():
